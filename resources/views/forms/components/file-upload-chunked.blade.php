@@ -24,7 +24,7 @@
     :label-sr-only="$isLabelHidden()"
 >
     <div
-            ax-load
+        ax-load
         ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('file-upload-chunked', 'owainjones74/filament-file-upload-chunked') }}"
         x-data="fileUploadFormComponentChunked({
                     acceptedFileTypes: @js($getAcceptedFileTypes()),
@@ -79,6 +79,8 @@
                     uploadButtonPosition: @js($getUploadButtonPosition()),
                     uploadProgressIndicatorPosition: @js($getUploadProgressIndicatorPosition()),
                     uploadUsing: (fileKey, file, success, error, progress) => {
+                    $wire.set('fileName', window.liveWireChunkedUploadOriginalFileName);
+
                          $wire.upload(
                             `{{ $statePath }}.${fileKey}`,
                             file,
@@ -160,7 +162,7 @@
                     >
                         <div class="w-full flex-1 overflow-auto p-4 lg:h-full">
                             <div class="h-full w-full">
-                                <img x-ref="editor" class="h-full w-auto" />
+                                <img x-ref="editor" class="h-full w-auto"/>
                             </div>
                         </div>
 
