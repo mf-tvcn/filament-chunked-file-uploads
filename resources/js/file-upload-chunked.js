@@ -148,18 +148,19 @@ export default function fileUploadFormComponentChunked({
                             ).toString(16),
                         )
 
-                        const self = this;
+                        window.liveWireChunkedUploadOriginalFileName = file.name
 
-                        function uploadChunk(file, start)
-                        {
-                            const chunkEnd  = Math.min( start + chunkSize, file.size );
-                            const chunk     = file.slice( start, chunkEnd );
+                        const self = this
+
+                        function uploadChunk(file, start) {
+                            const chunkEnd = Math.min(start + chunkSize, file.size)
+                            const chunk = file.slice(start, chunkEnd)
 
                             uploadUsing(
                                 fileKey,
                                 chunk,
                                 (fileKey) => {
-                                    if(chunkEnd >= file.size) {
+                                    if (chunkEnd >= file.size) {
                                         self.shouldUpdateState = true
 
                                         load(fileKey)
@@ -168,8 +169,8 @@ export default function fileUploadFormComponentChunked({
                                 error,
                                 (event) => {
                                     if (event.detail.progress == 100) {
-                                        start = chunkEnd;
-                                        if(start < file.size){
+                                        start = chunkEnd
+                                        if (start < file.size) {
                                             uploadChunk(file, start)
                                         } else {
                                             progress(event)
@@ -203,7 +204,8 @@ export default function fileUploadFormComponentChunked({
                 allowImageEdit: hasImageEditor,
                 imageEditEditor: {
                     open: (file) => this.loadEditor(file),
-                    onconfirm: () => {},
+                    onconfirm: () => {
+                    },
                     oncancel: () => this.closeEditor(),
                     onclose: () => this.closeEditor(),
                 },
@@ -221,9 +223,10 @@ export default function fileUploadFormComponentChunked({
                 // We don't want to overwrite the files that are already in the input, if they haven't been saved yet.
                 if (
                     this.state !== null &&
-                    Object.values(this.state).filter((file) =>
-                        file.startsWith('livewire-file:'),
-                    ).length
+                    Object.values(this.state)
+                        .filter((file) =>
+                            file.startsWith('livewire-file:'),
+                        ).length
                 ) {
                     this.lastState = null
 
@@ -321,12 +324,13 @@ export default function fileUploadFormComponentChunked({
         },
 
         dispatchFormEvent: function (name) {
-            this.$el.closest('form')?.dispatchEvent(
-                new CustomEvent(name, {
-                    composed: true,
-                    cancelable: true,
-                }),
-            )
+            this.$el.closest('form')
+                ?.dispatchEvent(
+                    new CustomEvent(name, {
+                        composed: true,
+                        cancelable: true,
+                    }),
+                )
         },
 
         getUploadedFiles: async function () {
