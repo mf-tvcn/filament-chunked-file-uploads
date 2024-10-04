@@ -133,6 +133,7 @@ export default function fileUploadFormComponentChunked({
                         progress,
                     ) => {
                         this.shouldUpdateState = false
+                        let uploadedBytes = 0 // Keep track of the uploaded bytes
 
                         let fileKey = (
                             [1e7] +
@@ -168,6 +169,15 @@ export default function fileUploadFormComponentChunked({
                                 },
                                 error,
                                 (event) => {
+                                    uploadedBytes = start + event.loaded
+                                    const overallProgress = (uploadedBytes / file.size) * 100
+
+                                    window.liveWireUploadProgress = window.liveWireUploadProgress || 0
+                                    window.liveWireUploadProgress = overallProgress
+
+                                    document.querySelector('.filepond--file-status-main').innerHTML =
+                                        `${overallProgress.toFixed(2)}%`
+
                                     if (event.detail.progress == 100) {
                                         start = chunkEnd
                                         if (start < file.size) {
