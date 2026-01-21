@@ -26,7 +26,7 @@ class FileUploadChunked extends FileUpload
         return $this->evaluate($this->chunkSize);
     }
 
-    public function callAfterStateUpdated(): static
+    public function callAfterStateUpdated(bool $shouldBubbleToParents = true): static
     {
         $tempName = null;
         $tempFile = null;
